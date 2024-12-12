@@ -1,10 +1,10 @@
-import { colors, fontFamily } from "@/styles/theme"
-import { StyleSheet } from "react-native"
+import { colors, fontFamily } from '@/styles/theme'
+import { StyleSheet } from 'react-native'
 
 export const s = StyleSheet.create({
   container: {
-    width: "100%",
-    flexDirection: "row",
+    width: '100%',
+    flexDirection: 'row',
     gap: 16,
   },
   details: {

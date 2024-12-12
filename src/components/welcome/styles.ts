@@ -1,6 +1,6 @@
-import { colors } from "@/styles/colors";
-import { fontFamily } from "@/styles/font-family";
-import { StyleSheet } from "react-native";
+import { colors } from '@/styles/colors'
+import { fontFamily } from '@/styles/font-family'
+import { StyleSheet } from 'react-native'
 
 export const s = StyleSheet.create({
   logo: {
@@ -19,5 +19,5 @@ export const s = StyleSheet.create({
     fontFeatureSettings: fontFamily.regular,
     color: colors.gray[500],
     marginTop: 12,
-  }
+  },
 })

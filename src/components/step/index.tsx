@@ -1,11 +1,11 @@
-import { colors } from '@/styles/colors';
-import { IconProps } from '@tabler/icons-react-native';
-import React from 'react';
-import { Text, View } from 'react-native';
-import { s } from './styles';
+import { colors } from '@/styles/colors'
+import { IconProps } from '@tabler/icons-react-native'
+import React from 'react'
+import { Text, View } from 'react-native'
+import { s } from './styles'
 
 type StepProps = {
-  title: string,
+  title: string
   description: string
   icon: React.ComponentType<IconProps>
 }
