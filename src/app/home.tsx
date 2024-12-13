@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { Alert, Text, View } from 'react-native';
 import MapView, { Callout, Marker } from 'react-native-maps';
 
-type MarketsProps = PlaceProps & {
+export type MarketsProps = PlaceProps & {
   latitude: number
   longitude: number
 }
