@@ -20,6 +20,7 @@ export const s = StyleSheet.create({
     padding: 20
   },
   containerCoupons: {
+    paddingVertical: 12,
     gap: 4
   },
   code: {
