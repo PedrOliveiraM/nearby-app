@@ -16,6 +16,7 @@ export function Places({ data }: Props) {
     min: 278,
     max: dimensions.height - 128
   }
+
   return (
     <BottomSheet
       ref={bottomSheetRef}

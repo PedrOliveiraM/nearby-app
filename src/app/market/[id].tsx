@@ -4,6 +4,7 @@ import { Coupon, Coupons } from '@/components/market/coupons';
 import { Cover } from '@/components/market/cover';
 import { Details, PropsDetails } from '@/components/market/details';
 import { api } from '@/services/api';
+import { NearbyStorage } from '@/storage/nearby-storage';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { isLoading } from 'expo-font';
 import { Redirect, router, useLocalSearchParams } from 'expo-router';
@@ -21,14 +22,12 @@ type ApiCouponResponse = {
 export default function Market() {
   const [isVisibleCameraModal, setIsVisibleCameraModal] = useState<boolean>(false);
   const [coupon, setCoupon] = useState<string>("")
-  const [DataCoupons, setDataCoupons] = useState<Coupon[]>([])
   const [data, setData] = useState<DataProps>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const params = useLocalSearchParams<{ id: string }>()
   const [_, requestPermission] = useCameraPermissions()
   const [couponIsFetching, setCouponIsFetching] = useState<boolean>(false);
   const qrLock = useRef(false)
-  console.log(params.id)
 
   async function fetchMarket() {
     try {
@@ -61,23 +60,21 @@ export default function Market() {
   async function getCoupon(id: string) {
     try {
       setCouponIsFetching(true)
-
-      const { data } = await api.patch<ApiCouponResponse>("/coupons/" + id)
+      const { data } = await api.patch<ApiCouponResponse>(`coupons/${id}`)
       Alert.alert("Cupom", data.coupon)
 
       if (!data.coupon) return
 
       setCoupon(data.coupon)
-
-      const newCoupon: Coupon = {
-        id: Date.now().toString(), // Gera um ID único
-        code: coupon,
-      };
-
-      setDataCoupons((prevCoupons) => [...prevCoupons, newCoupon]);
+      // armazenar o cupom no dispositivo 
+      await NearbyStorage.save({
+        id: Date.now().toString(),
+        code: data.coupon
+      })
     }
     catch (error) {
       Alert.alert("Erro", "Não foi possível utilizar o cupom")
+      console.error(error)
     } finally {
       setCouponIsFetching(false)
     }
@@ -86,7 +83,7 @@ export default function Market() {
   function handleUseCoupon(id: string) {
     setIsVisibleCameraModal(false)
 
-    Alert.alert("Cupom", "Não é possível reutilizar um cupom resgatado.Deseja realmente resgatar o cupom ? ", [
+    Alert.alert("Cupom", "Lembre se que não é possível reutilizar um cupom já resgatado. Deseja realmente resgatar o cupom ? ", [
       { style: "cancel", text: "Não" },
       { text: "Sim", onPress: () => getCoupon(id) },
     ])
@@ -94,7 +91,7 @@ export default function Market() {
 
   useEffect(() => {
     fetchMarket()
-  }, [params.id, coupon, DataCoupons]);
+  }, [params.id, coupon]);
 
   if (isLoading) return <Loading />
 
@@ -103,7 +100,7 @@ export default function Market() {
   return (
     <View style={{ flex: 1 }}>
       <Cover uri={data?.cover} />
-      <Details data={data} coupons={DataCoupons} />
+      <Details data={data} />
 
       <View style={{ padding: 32 }}>
         <Button onPress={handleOpenCamera}>

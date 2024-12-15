@@ -1,6 +1,6 @@
-import React from "react"
+import React, { useState } from "react"
 import { ScrollView, View } from "react-native"
-import { Coupon, Coupons } from "../coupons"
+import { Coupons } from "../coupons"
 import { Header } from "../header/header"
 import { Info } from "../info"
 import { Regulations } from "../regulation"
@@ -22,19 +22,18 @@ export type PropsDetails = {
 
 type Props = {
   data: PropsDetails
-  coupons: Coupon[];
 }
 
-export function Details({ data, coupons }: Props) {
-
+export function Details({ data }: Props) {
+  const [Data, setData] = useState(data);
   return (
     <ScrollView>
       <View style={s.container} >
-        <Header name={data.name} description={data.description} />
-        <Ticket coupons={data.coupons} />
-        <Regulations rules={data.rules} />
-        <Info address={data.address} phone={data.phone} />
-        <Coupons coupons={coupons} />
+        <Header name={Data.name} description={Data.description} />
+        <Ticket coupons={Data.coupons} />
+        <Regulations rules={Data.rules} />
+        <Info address={Data.address} phone={Data.phone} />
+        <Coupons />
       </View>
     </ScrollView>
   )

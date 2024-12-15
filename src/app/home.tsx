@@ -23,7 +23,6 @@ export default function Home() {
   const [categories, setCategories] = useState<CategoriesProps>([]);
   const [markets, setMarkets] = useState<MarketsProps[]>([]);
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
-
   const [category, setCategory] = useState<string>('146b1a88-b3d3-4232-8b8f-c1f006f1e86d');
 
   async function fetchCategories() {
@@ -49,7 +48,6 @@ export default function Home() {
       Alert.alert("Locais", "Não foi possível carregar os locais.")
     }
   }
-
 
   async function getCurrentLocation() {
     try {
